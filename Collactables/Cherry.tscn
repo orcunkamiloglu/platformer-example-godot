@@ -1,0 +1,94 @@
+[gd_scene load_steps=10 format=3 uid="uid://cgux6x50fboyj"]
+
+[ext_resource type="Texture2D" uid="uid://g8jmc2ur47fu" path="res://Sunny-land-assets-files/PNG/spritesheets/cherry.png" id="1_lr0tx"]
+
+[sub_resource type="GDScript" id="GDScript_74bsa"]
+script/source = "extends Area2D
+
+
+
+func _on_body_entered(body):
+	if body.name == \"Player\":
+		Game.Gold += 5
+		var tweenUp = get_tree().create_tween()
+		tweenUp.tween_property(self, \"position\", position - Vector2(0, 35), 0.35)
+		
+		var tweenDismiss = get_tree().create_tween()
+		tweenDismiss.tween_property(self, \"modulate:a\", 0, 0.2)
+		tweenUp.tween_callback(queue_free)
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8u4e2"]
+radius = 8.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lm3bw"]
+atlas = ExtResource("1_lr0tx")
+region = Rect2(0, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ijudb"]
+atlas = ExtResource("1_lr0tx")
+region = Rect2(21, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pd8xi"]
+atlas = ExtResource("1_lr0tx")
+region = Rect2(42, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_btcor"]
+atlas = ExtResource("1_lr0tx")
+region = Rect2(63, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_734io"]
+atlas = ExtResource("1_lr0tx")
+region = Rect2(84, 0, 21, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gpmhd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lm3bw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ijudb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pd8xi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_btcor")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_734io")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_734io")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_btcor")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pd8xi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ijudb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lm3bw")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[node name="Cherry" type="Area2D"]
+script = SubResource("GDScript_74bsa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8u4e2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gpmhd")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.590413
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
